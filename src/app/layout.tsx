@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "lingjo",
+  title: "Lingjo",
   description: "A web application for language learning",
 };
 
