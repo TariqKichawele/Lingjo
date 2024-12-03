@@ -11,6 +11,9 @@ import { Separator } from './ui/separator';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Send } from 'lucide-react';
+import { saveGrammrImprovements, sendMessageToDB } from '@/utils/db';
+import { continueConversation, findGrammarImprovements } from '@/utils/open-ai';
+import { useToast } from '@/hooks/use-toast';
 
 interface ChatProps {
     initialMessages: Message[];
@@ -18,6 +21,8 @@ interface ChatProps {
 }
 
 const Chat = ({ initialMessages, conversationId }: ChatProps) => {
+    const { toast } = useToast();
+
     const [ message, setMessage ] = useState<string>('');
     const [ messages, setMessages ] = useState<Message[]>(initialMessages);
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
@@ -37,7 +42,68 @@ const Chat = ({ initialMessages, conversationId }: ChatProps) => {
         const currentMessage = message.trim();
         setMessage('');
 
-        console.log(currentMessage);
+        try {
+            const userMessage = {
+                content: currentMessage,
+                role: 'user',
+                id: `temp-${Date.now()}`,
+                conversationId,
+                createdAt: new Date(),
+            } as Message;
+
+            setMessages((prev) => [...prev, userMessage]);
+
+            if(isTyping) {
+                setMessages((prev) => [
+                    ...prev,
+                    {
+                        content: '...',
+                        role: 'assistant',
+                        id: "typing-indicator",
+                        conversationId,
+                        createdAt: new Date()
+                    } as Message
+                ]);
+            }
+
+            const [ newMessage, correction ] = await Promise.all([
+                sendMessageToDB(currentMessage, conversationId, 'user'),
+                findGrammarImprovements(currentMessage)
+            ]);
+
+            if(!newMessage) return;
+
+            if(correction && newMessage && correction.focus !== 'No grammar mistakes found') {
+                await saveGrammrImprovements(newMessage.id, correction);
+            }
+
+            setMessages((prev) => {
+                const filtered = prev.filter((msg) => msg.id !== userMessage.id);
+                return [...filtered, newMessage];
+            });
+
+            const aiResponse = await continueConversation([...messages, newMessage], currentMessage);
+            if(!aiResponse) return;
+
+            const newAiMessage = await sendMessageToDB(aiResponse.content, conversationId, 'assistant');
+            if(!newAiMessage) return;
+
+            setMessages((prev) => {
+                const filtered = prev.filter((msg) => msg.id !== "typing-indicator");
+                return [...filtered, newAiMessage];
+            })
+        } catch (error) {
+            toast({
+                title: "Something went wrong",
+                description: "Rest assured, we've been notified",
+            });
+
+            console.error(error);
+            setMessages((prev) => prev.filter((msg) => msg.id !== "typing-indicator"));
+        } finally {
+            setIsLoading(false);
+            setIsTyping(false);
+        }
     }
 
   return (
