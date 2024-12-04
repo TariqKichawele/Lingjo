@@ -113,14 +113,14 @@ const Chat = ({ initialMessages, conversationId }: ChatProps) => {
             animate={{ opacity: 1, y: 0 }}
             className="mb-8"
         >
-            <Badge variant={"default"} className="w-32 flex justify-center">
-                English Practice
+            <Badge variant={"default"} className="w-32 flex justify-center mb-5">
+                Practice
             </Badge>
             <h1 className="text-4xl font-bold text-foreground mb-2">
                 Conversation
             </h1>
             <p className="text-muted-foreground">
-                Practice your English with our AI language partner
+                Practice your favorite language with our AI language partner
             </p>
         </motion.div>
         <Card className="mb-4">

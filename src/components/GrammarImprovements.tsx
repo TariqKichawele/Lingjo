@@ -56,7 +56,7 @@ const GrammarImprovements = ({
             animate={{ opacity: 1, y: 0 }}
             className={"mb-8"}
         >
-            <Badge variant="default">Language Analysis</Badge>
+            <Badge variant="default" className='mb-5 px-5'>Language Analysis</Badge>
             <h1 className="text-4xl font-bold text-foreground mb-2">
                 Improvements
             </h1>
