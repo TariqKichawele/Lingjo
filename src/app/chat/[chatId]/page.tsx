@@ -6,7 +6,7 @@ import Chat from '@/components/Chat';
 import GrammarImprovements from '@/components/GrammarImprovements';
 import { Correction } from '@prisma/client';
 
-const Page = async ({ params } : { params: { chatId: string } }) => {
+const Page = async ({ params } : { params: Promise<{ chatId: string }> }) => {
     const { chatId } = await params;
 
     const chat = await db.conversation.findUnique({

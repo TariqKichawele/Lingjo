@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import MaxWidthWrapper from '@/components/common/MaxWidthWrapper';
 import Quiz from '@/components/Quiz';
 
-const Page = async({ params } : { params: { quizId: string } }) => {
+const Page = async({ params } : { params: Promise<{ quizId: string }> }) => {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
 
