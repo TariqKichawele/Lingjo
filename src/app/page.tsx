@@ -17,7 +17,7 @@ export default function Home() {
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-indigo-900 leading-tight">
                 Learn By{" "}
                 <span className="relative">
-                  <span className="relative z-10">Conversing</span>
+                  <span className="relative z-10" >Conversing</span>
                   <span className="absolute bottom-2 left-0 w-full h-4 bg-orange-500/20 -rotate-2" />
                 </span>
               </h1>

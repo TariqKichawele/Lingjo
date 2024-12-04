@@ -1,27 +1,30 @@
-import React from 'react'
-import MaxWidthWrapper from './MaxWidthWrapper'
-import { Button, buttonVariants } from '../ui/button';
-import { Sheet, SheetTrigger, SheetContent, SheetTitle } from '../ui/sheet';
-import { Menu } from 'lucide-react';
-import Link from 'next/link';
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import { LoginLink, LogoutLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import Link from "next/link";
+import { Button, buttonVariants } from "@/components/ui/button";
+import MaxWidthWrapper from "./MaxWidthWrapper";
+import {
+  LoginLink,
+  LogoutLink,
+  RegisterLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Menu } from "lucide-react";
 
 const navigation = [
-    {
-      name: "Home",
-      href: "/",
-    },
-    {
-      name: "Dashboard",
-      href: "/dashboard",
-    },
+  {
+    name: "Home",
+    href: "/",
+  },
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+  },
 ];
 
 const Navbar = async () => {
-    const { isAuthenticated } = getKindeServerSession();
-    const authenticated = await isAuthenticated();
-    
+  const { isAuthenticated } = getKindeServerSession();
+  const authenticated = await isAuthenticated();
+
   return (
     <MaxWidthWrapper className="fixed top-0 w-full z-50 right-0 left-0 bg-background/80 backdrop-blur-md shadow-sm">
       <nav className="container mx-auto px-4">
@@ -104,7 +107,7 @@ const Navbar = async () => {
         </div>
       </nav>
     </MaxWidthWrapper>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

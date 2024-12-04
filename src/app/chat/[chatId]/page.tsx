@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import MaxWidthWrapper from '@/components/common/MaxWidthWrapper';
 import Chat from '@/components/Chat';
 import GrammarImprovements from '@/components/GrammarImprovements';
+import { Correction } from '@prisma/client';
 
 const Page = async ({ params } : { params: { chatId: string } }) => {
     const { chatId } = await params;
@@ -33,7 +34,9 @@ const Page = async ({ params } : { params: { chatId: string } }) => {
                 <Chat initialMessages={chat?.message || []} conversationId={chatId} />
             </div>
             <div className="grid col-span-1 md:col-span-4">
-                <GrammarImprovements />
+                <GrammarImprovements improvements={
+                    chat?.message.map((message) => message.improvements).filter(Boolean) as Correction[]
+                }/>
             </div>
         </div>
     </MaxWidthWrapper>
