@@ -145,28 +145,28 @@ const Chat = ({ initialMessages, conversationId }: ChatProps) => {
                                     msg.role === "user" && "flex-row-reverse"
                                 )}
                             >
-                            <Avatar className="w-8 h-8">
-                                <AvatarImage
-                                    src={
+                                <Avatar className="w-8 h-8">
+                                    <AvatarImage
+                                        src={
+                                            msg.role === "assistant"
+                                            ? "/ai-avatar.png"
+                                            : "/user-avatar.png"
+                                        }
+                                    />
+                                    <AvatarFallback>
+                                        {msg.role === "assistant" ? "AI" : "ME"}
+                                    </AvatarFallback>
+                                </Avatar>
+                                <div
+                                    className={cn(
+                                        "rounded-lg p-3 max-w-[80%]",
                                         msg.role === "assistant"
-                                        ? "/ai-avatar.png"
-                                        : "/user-avatar.png"
-                                    }
-                                />
-                                <AvatarFallback>
-                                    {msg.role === "assistant" ? "AI" : "ME"}
-                                </AvatarFallback>
-                            </Avatar>
-                            <div
-                                className={cn(
-                                    "rounded-lg p-3 max-w-[80%]",
-                                    msg.role === "assistant"
-                                        ? "bg-accent/10 text-foreground"
-                                        : "bg-primary text-primary-foreground"
-                                )}
-                            >
-                                <p>{msg.content}</p>
-                            </div>
+                                            ? "bg-accent/10 text-foreground"
+                                            : "bg-primary text-primary-foreground"
+                                    )}
+                                >
+                                    <p>{msg.content}</p>
+                                </div>
                             </motion.div>
                         ))}
                     </AnimatePresence>
