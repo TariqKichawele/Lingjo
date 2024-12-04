@@ -1,7 +1,7 @@
 'use server'
 
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
-import db from "../../../db";
+import db from "../../../db"
 
 export async function verifyUser() {
     try {
